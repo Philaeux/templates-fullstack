@@ -1,0 +1,13 @@
+FROM python:3.12
+
+RUN pip install poetry
+
+COPY ../templates-backend/pyproject.toml ../templates-backend/poetry.lock templates-backend/
+WORKDIR templates-backend/
+RUN poetry install --no-root
+
+COPY ../templates-backend/src ./
+EXPOSE 5000
+
+WORKDIR ./src
+CMD ["poetry", "run", "python", "main.py"]

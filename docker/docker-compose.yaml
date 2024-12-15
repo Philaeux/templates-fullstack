@@ -1,0 +1,28 @@
+version: '3'
+services:
+  server:
+    build:
+      context: ..
+      dockerfile: docker/DockerfileBackend
+    container_name: templates-backend-server
+    restart: always
+    ports:
+      - "19998:5000"
+    depends_on:
+      postgres:
+        condition: service_healthy
+  db:
+    image: postgres:latest
+    container_name: templates-backend-db
+    restart: always
+    environment:
+      POSTGRES_DB: templates
+      POSTGRES_USER: templates
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ../../templates_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U obugs" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
