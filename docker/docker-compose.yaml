@@ -1,20 +1,25 @@
 version: '3'
 services:
-  server:
+  backend:
+    image: templates-backend
     build:
       context: ..
       dockerfile: docker/DockerfileBackend
-    container_name: templates-backend-server
+
+    container_name: templates-backend
     restart: always
     ports:
       - "19998:5000"
     depends_on:
-      postgres:
+      db:
         condition: service_healthy
+
   db:
     image: postgres:latest
+
     container_name: templates-backend-db
     restart: always
+
     environment:
       POSTGRES_DB: templates
       POSTGRES_USER: templates
@@ -26,3 +31,21 @@ services:
       interval: 5s
       timeout: 5s
       retries: 5
+
+  frontend:
+    build:
+      context: ..
+      dockerfile: docker/DockerfileFrontend
+      args:
+        - VARIANT=${VARIANT}
+    ulimits:
+      nofile: 5000
+    image: templates-frontend
+
+    container_name: templates-frontend
+    restart: always
+
+    ports:
+      - "$19997:80"
+    environment:
+      - NGINX_PORT=80

@@ -2,13 +2,18 @@ version: '3'
 services:
   db:
     image: postgres:latest
-    container_name: templates-backend-dev-db
+
+    container_name: templates-backend-db
     restart: always
-    ports:
-      - "5432:5432"
+
     environment:
       POSTGRES_DB: templates
       POSTGRES_USER: templates
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ../../templates_postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U obugs" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5

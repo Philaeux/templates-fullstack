@@ -1,9 +1,11 @@
-FROM python:3.12
+FROM python:latest
 
 RUN pip install poetry
+RUN poetry config virtualenvs.create false
 
-COPY ../templates-backend/pyproject.toml ../templates-backend/poetry.lock templates-backend/
 WORKDIR templates-backend/
+COPY ../templates-backend/pyproject.toml ../templates-backend/poetry.lock ./
+
 RUN poetry install --no-root
 
 COPY ../templates-backend/src ./
