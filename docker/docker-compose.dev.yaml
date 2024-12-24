@@ -1,4 +1,3 @@
-version: '3'
 services:
   db:
     image: postgres:latest
@@ -12,8 +11,3 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
     volumes:
       - ../../templates_postgres_data:/var/lib/postgresql/data
-    healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U obugs" ]
-      interval: 5s
-      timeout: 5s
-      retries: 5
