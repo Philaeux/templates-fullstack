@@ -1,6 +1,6 @@
 from sqlalchemy.orm import Mapped, mapped_column
 
-from template.database.base import Base
+from templates.database.base import Base
 
 
 class A(Base):

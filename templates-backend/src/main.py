@@ -8,5 +8,5 @@ logging.basicConfig(
 
 # Entrypoint
 if __name__ == '__main__':
-    from template.backend import app
+    from templates.backend import app
     uvicorn.run(app, host="0.0.0.0", port=5000)

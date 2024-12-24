@@ -1,10 +1,8 @@
-import strawberry
 from strawberry.types import Info
 
-from template.graphql.types.generic import ApiError
+from templates.graphql.types.generic import ApiError
 
 
-@strawberry.mutation
 async def ma(info: Info) -> ApiError:
     # Typical user check
     # current_user = check_user(info.context["settings"].jwt_secret_key,

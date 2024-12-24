@@ -1,10 +1,8 @@
-import strawberry
 from strawberry.types import Info
 
-from template.graphql.types.generic import ApiError
+from templates.graphql.types.generic import ApiError
 
 
-@strawberry.mutation
 async def qa(info: Info) -> ApiError:
 
     # Typical database access

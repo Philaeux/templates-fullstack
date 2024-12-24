@@ -6,7 +6,7 @@ from alembic.config import Config
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from template.database.base import Base
+from templates.database.base import Base
 
 
 class Database:

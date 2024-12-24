@@ -1,7 +1,7 @@
 import configparser
 from pathlib import Path
 
-from template.utils.singleton_meta import SingletonMeta
+from templates.utils.singleton_meta import SingletonMeta
 
 
 class Settings(metaclass=SingletonMeta):
@@ -16,7 +16,7 @@ class Settings(metaclass=SingletonMeta):
     """
     debug: bool = True
     jwt_secret_key: str = "sssssssss"
-    database_uri: str = "postgresql+psycopg://template:sssssssss@host.docker.internal:5432/template"
+    database_uri: str = "sqlite+pysqlite:///sqlite.db"
     frontend_uri: str = "http://127.0.0.1:4200"
     backend_uri: str = "http://127.0.0.1:5000"
 

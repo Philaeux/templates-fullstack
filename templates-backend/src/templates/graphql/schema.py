@@ -1,8 +1,8 @@
 import strawberry
 
-from template.graphql.mutations.a import ma
-from template.graphql.queries.a import qa
-from template.graphql.types import strawberry_sqlalchemy_mapper
+from templates.graphql.mutations.a import ma
+from templates.graphql.queries.a import qa
+from templates.graphql.types.generated import strawberry_sqlalchemy_mapper
 
 
 @strawberry.type

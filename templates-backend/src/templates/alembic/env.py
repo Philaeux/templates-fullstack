@@ -5,12 +5,12 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from template.database.base import Base
-from template.database.a import A
+from templates.database.base import Base
+from templates.database.a import A
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
-from template.settings import Settings
+from templates.settings import Settings
 config = context.config
 config.set_main_option("sqlalchemy.url", Settings().database_uri)
 

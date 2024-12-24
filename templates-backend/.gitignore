@@ -1,6 +1,6 @@
 # Project
 src/settings.ini
-src/template/database/sqlite.db
+src/sqlite.db
 docs/_build
 
 # Byte-compiled / optimized / DLL files

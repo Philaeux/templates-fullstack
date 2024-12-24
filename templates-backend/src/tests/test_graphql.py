@@ -1,7 +1,7 @@
 import pytest
 
-from template.graphql.schema import schema
-from template.backend import get_context
+from templates.graphql.schema import schema
+from templates.backend import get_context
 
 
 @pytest.fixture()
