@@ -24,15 +24,16 @@ def repeat_every(*,
     The function it decorates should accept no arguments and return nothing. If necessary, this can be accomplished
     by using `functools.partial` or otherwise wrapping the target function prior to decoration.
 
-    :param seconds: The number of seconds to wait between repeated calls
-    :param wait_first: If True, the function will wait for a single period before the first call
-    :param logger: The logger to use to log any exceptions raised by calls to the decorated function. If not provided,
-    exceptions will not be logged by this function.
-    :param raise_exceptions: If True, errors raised by the decorated function will be raised to the event loop's exception
-    handler. Note that if an error is raised, the repeated execution will stop. Otherwise, exceptions are just logged
-    and the execution continues to repeat.
-    :param max_repetitions: The maximum number of times to call the repeated function. If `None`, the function is repeated
-    forever.
+    Args:
+        seconds: The number of seconds to wait between repeated calls
+        wait_first: If True, the function will wait for a single period before the first call
+        logger: The logger to use to log any exceptions raised by calls to the decorated function. If not provided, exceptions will not be logged by
+        this function.
+        raise_exceptions: If True, errors raised by the decorated function will be raised to the event loop's exception
+        handler. Note that if an error is raised, the repeated execution will stop. Otherwise, exceptions are just logged
+        and the execution continues to repeat.
+        max_repetitions: The maximum number of times to call the repeated function. If `None`, the function is repeated
+        forever.
     """
 
     def decorator(func: NoArgsNoReturnAsyncFuncT | NoArgsNoReturnFuncT) -> NoArgsNoReturnAsyncFuncT:

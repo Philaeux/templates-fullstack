@@ -1,11 +1,10 @@
 [tool.poetry]
-name = "template"
+name = "templates"
 version = "1.0.0"
 description = "Backend of the website Template."
 authors = ["Firstname 'Nickname' SURNAME <email>"]
 license = "CC BY-NC-SA 4.0"
-readme = "README.rst"
-package-mode = false
+readme = "../README.rst"
 
 [tool.poetry.dependencies]
 python = "^3.11"

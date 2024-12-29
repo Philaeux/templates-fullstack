@@ -1,18 +1,19 @@
 import strawberry
 
-from templates.graphql.mutations.a import ma
-from templates.graphql.queries.a import qa
+from templates.graphql.mutations.a import mutation_error_example
+from templates.graphql.queries.a import query_success_example, query_error_example
 from templates.graphql.types.generated import strawberry_sqlalchemy_mapper
 
 
 @strawberry.type
 class Mutation:
-    ma = strawberry.mutation(resolver=ma)
+    mutation_error_example = strawberry.mutation(resolver=mutation_error_example)
 
 
 @strawberry.type
 class Query:
-    qa = strawberry.field(resolver=qa)
+    query_success_example = strawberry.field(resolver=query_success_example)
+    query_error_example = strawberry.field(resolver=query_error_example)
 
 
 strawberry_sqlalchemy_mapper.finalize()

@@ -12,7 +12,7 @@ class ApiError:
 
 @strawberry.type
 class ApiSuccess:
-    """Endpoint execution succeeded, but there is nothing to return (like a deletetion)
+    """Endpoint execution succeeded, but there is nothing to return (like delete)
     
     Attributes:
         message: Optional information

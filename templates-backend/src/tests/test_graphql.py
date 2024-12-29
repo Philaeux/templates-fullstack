@@ -1,33 +1,23 @@
 import pytest
 
-from templates.graphql.schema import schema
-from templates.backend import get_context
-
-
-@pytest.fixture()
-async def context():
-    """Define the context used by the graphql application"""
-    context = await get_context()
-    return context
-
 
 @pytest.mark.asyncio
-async def test_qa(context):
+async def test_qa(mock_app):
     """Test the execution of the querry qa"""
-    
-    query = """
-        query TestQuery {
-            qa {
-                id
+
+    query_success_example = """
+        query querySuccessExample {
+            querySuccessExample {
+                __typename
             }
         }
     """
 
-    result = await schema.execute(
-        query,
-        context_value=context,
-        variable_values={},
-    )
+    response = mock_app.post("/graphql", headers={}, json={
+        "query": query_success_example,
+        "variables": {
+            "fastId": "fast_simple"}})
 
-    assert result.errors is None
-    assert result.data["qa"] == {}
+    assert response.status_code == 200
+    result_json = response.json()
+    assert result_json == {'data': {'querySuccessExample': {'__typename': 'ApiSuccess'}}}

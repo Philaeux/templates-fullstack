@@ -1,10 +1,8 @@
 import configparser
 from pathlib import Path
 
-from templates.utils.singleton_meta import SingletonMeta
 
-
-class Settings(metaclass=SingletonMeta):
+class Settings:
     """Parameters of the application read from settings.ini
     
     Attributes:
