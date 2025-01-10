@@ -1,4 +1,5 @@
 # Project
+.venv
 src/settings.ini
 src/sqlite.db
 src/tests/sqlite.db
