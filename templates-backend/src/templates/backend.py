@@ -29,7 +29,9 @@ def make_app(settings: Settings):
     # CORS
     app.add_middleware(
         CORSMiddleware,
-        allow_origins=[settings.frontend_uri],
+        allow_origins=[
+            settings.frontend_uri,
+            "http://localhost:4200"],
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"]
