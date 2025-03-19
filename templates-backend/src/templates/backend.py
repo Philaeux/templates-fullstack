@@ -1,29 +1,39 @@
 from contextlib import asynccontextmanager
+from typing import Annotated
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.requests import Request
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session
 from strawberry.fastapi import GraphQLRouter
 from strawberry_sqlalchemy_mapper import StrawberrySQLAlchemyLoader
 
-from templates.settings import Settings
-from templates.database.database import Database
 from templates.graphql.schema import schema
+from templates.settings import Settings
+from templates.utils.helpers import check_migration
 
 
 def make_app(settings: Settings):
+    # Database
+    engine = create_engine(settings.database_uri)
+    check_migration(settings.database_uri)
+
+    # Session dependency
+    def get_session():
+        with Session(engine, expire_on_commit=False) as session:
+            yield session
+    SessionDep = Annotated[Session, Depends(get_session)]
+
+    # App creation
     @asynccontextmanager
-    async def lifespan(app: FastAPI):
+    async def lifespan(fast_app: FastAPI):
         # Add startup functions here
         yield
         # Add shutdown functions here
 
     app = FastAPI(lifespan=lifespan)
-
-    # Database
-    database = Database(uri=settings.database_uri, auto_migrate=True)
-    app.database = database
+    app.engine = engine
     app.settings = settings
 
     # CORS
@@ -38,14 +48,13 @@ def make_app(settings: Settings):
     )
 
     # GraphQL
-    async def get_context():
+    async def get_context(session: SessionDep):
         """Contexte passed to all GraphQL functions. Give database access"""
         return {
             "settings": settings,
-            "session_factory": database.session_factory,
-            "sqlalchemy_loader": StrawberrySQLAlchemyLoader(bind=database.session_factory()),
+            "session": session,
+            "sqlalchemy_loader": StrawberrySQLAlchemyLoader(bind=session),
         }
-
 
     graphql_app = GraphQLRouter(
         schema,
