@@ -4,9 +4,9 @@ from strawberry_sqlalchemy_mapper import StrawberrySQLAlchemyMapper
 strawberry_sqlalchemy_mapper = StrawberrySQLAlchemyMapper()
 
 # How to add an orm mapping to strawberry type
-from templates.database.a import A as AEntity
+from templates.database.a import A
 
 
-@strawberry_sqlalchemy_mapper.type(AEntity)
-class A:
+@strawberry_sqlalchemy_mapper.type(A)
+class AGql:
     pass

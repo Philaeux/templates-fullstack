@@ -63,31 +63,19 @@ If you wish to use a postgresql database similar to production in dev, use the .
     # On server:
     sudo rm -rf ~/templates_postgres_save
 
-To run the backend, using poetry::
+To run the backend, using uv::
 
-    # Make sure you have poetry
-    python -m pip install pipx
-    python -m pipx install poetry
-    # Install dependencies
-    cd templates-backend
-    poetry install --with docs,tests
+    # Make sure you have uv
+    uv run main.py
     # Run tests
-    cd src
-    poetry run pytest
-    # Get information about the virtual environment (to setup in your ide)
-    poetry env info
-    # Run
-    cd src
-    poetry run python main.py
+    uv run pytest
     # Generate documentation
     cd docs
-    poetry run sphinx-build . _build
-    # If you want to remove your venv associated
-    poetry env remove python
+    uv run sphinx-build . _build
 
 To generate a new database migration, use alembic::
 
-    poetry run alembic revision --autogenerate
+    uv run alembic revision --autogenerate
 
 Before using the frontend, make sure you have `nvm` installed. To run the frontend, using node::
 

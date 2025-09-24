@@ -38,13 +38,13 @@ The backend use configuration files.
 Run
 -----
 
-Run the backend using::
+Run the backend using uv::
 
-    poetry run python main.py
+    uv run main.py
 
 If you set some script, run it the same way::
 
-    poetry run python scripts.py --help
+    uv run scripts.py --help
 
 Deploy
 --------

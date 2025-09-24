@@ -1,4 +1,5 @@
 import pytest
+from sqlalchemy.orm import Session
 from starlette.testclient import TestClient
 
 from templates.backend import make_app
@@ -18,7 +19,7 @@ def build_app():
 @pytest.fixture()
 def mock_app(build_app):
     """Empty tables before every test..."""
-    with build_app.app.database.session_factory() as session:
+    with Session(build_app.app.engine) as session:
         # session.query(A).delete()
         session.commit()
 

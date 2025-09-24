@@ -36,11 +36,6 @@ def check_user(context):
             return None
     return None
 
-def unpack_utilities(info: Info):
-    """Unpack commonly used elements in queries/mutations"""
-    return (info.context["settings"],
-            info.context["session"])
-
 def check_migration(database_uri: str):
     dir_uri = os.path.dirname(__file__)
     alembic = Path(dir_uri) / ".." / ".." / "alembic.ini"

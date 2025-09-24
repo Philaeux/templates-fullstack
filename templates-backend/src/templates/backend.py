@@ -1,16 +1,19 @@
 from contextlib import asynccontextmanager
+from datetime import UTC
 from typing import Annotated
 
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
+
+from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from fastapi.requests import Request
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from strawberry.fastapi import GraphQLRouter
-from strawberry_sqlalchemy_mapper import StrawberrySQLAlchemyLoader
 
 from templates.graphql.schema import schema
 from templates.settings import Settings
+from templates.utils.dataclasses import AppContext
 from templates.utils.helpers import check_migration
 
 
@@ -18,6 +21,9 @@ def make_app(settings: Settings):
     # Database
     engine = create_engine(settings.database_uri)
     check_migration(settings.database_uri)
+
+    # Periodic tasks scheduler
+    scheduler = AsyncIOScheduler(timezone=UTC)
 
     # Session dependency
     def get_session():
@@ -28,9 +34,9 @@ def make_app(settings: Settings):
     # App creation
     @asynccontextmanager
     async def lifespan(fast_app: FastAPI):
-        # Add startup functions here
+        scheduler.start()
         yield
-        # Add shutdown functions here
+        scheduler.shutdown()
 
     app = FastAPI(lifespan=lifespan)
     app.engine = engine
@@ -49,12 +55,8 @@ def make_app(settings: Settings):
 
     # GraphQL
     async def get_context(session: SessionDep):
-        """Contexte passed to all GraphQL functions. Give database access"""
-        return {
-            "settings": settings,
-            "session": session,
-            "sqlalchemy_loader": StrawberrySQLAlchemyLoader(bind=session),
-        }
+        """Context passed to all GraphQL functions. Give database access"""
+        return AppContext(settings=settings, session=session)
 
     graphql_app = GraphQLRouter(
         schema,
@@ -70,5 +72,10 @@ def make_app(settings: Settings):
     @app.get('/hello')
     async def hello(request: Request):
         return {"message": "Hello World"}
+
+    # Example of scheduler task
+    @scheduler.scheduled_job('interval', seconds=10*60)
+    async def periodic_task():
+        pass
 
     return app

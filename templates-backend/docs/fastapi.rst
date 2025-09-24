@@ -1,15 +1,6 @@
 FastAPI
 ========
 
-Periodic Tasks
----------------
-
-It's possible to create periodic tasks. Use this function decorator:
-    
-.. autofunction:: templates.utils.repeat_every.repeat_every
-
-And then call this function in the lifespan function.
-
 GraphQL
 --------
 
@@ -24,9 +15,7 @@ Schema defined for the GraphQL endpoint:
 Types Input & Output
 ^^^^^^^^^^^^^^^^^^^^^^
 
-I recommend creating files to store Input and Output types of the GraphQL endpoints, in files like ``src/template/graphql/types/a.py``.
-
-These types are used:
+Generic api types:
 
 .. automodule:: templates.graphql.types.generic
     :members:
